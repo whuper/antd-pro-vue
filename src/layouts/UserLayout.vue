@@ -9,7 +9,7 @@
           <div class="header">
             <a href="/">
               <img src="~@/assets/headerLogo.png" class="logo" alt="logo" />
-              <span class="title">Ant Design</span>
+              <span class="title"> 齐安科技 </span>
             </a>
           </div>
           <div class="desc">

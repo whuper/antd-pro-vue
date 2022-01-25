@@ -1,6 +1,6 @@
 import router from './router'
 import store from './store'
-import storage from 'store'
+import { goodStorage } from "@/utils/storage";
 import NProgress from 'nprogress' // progress bar
 import '@/components/NProgress/nprogress.less' // progress bar custom style
 import notification from 'ant-design-vue/es/notification'
@@ -14,22 +14,28 @@ const allowList = ['login', 'register', 'registerResult'] // no redirect allowLi
 const loginRoutePath = '/user/login'
 const defaultRoutePath = '/dashboard/workplace'
 
+
 router.beforeEach((to, from, next) => {
+  var isLogging = false
   NProgress.start() // start progress bar
   to.meta && typeof to.meta.title !== 'undefined' && setDocumentTitle(`${i18nRender(to.meta.title)} - ${domTitle}`)
   /* has token */
-  if (storage.get(ACCESS_TOKEN)) {
+  // if (storage.get(ACCESS_TOKEN)) {
+    console.log('to.path ',to.path);
     if (to.path === loginRoutePath) {
-      next({ path: defaultRoutePath })
+      isLogging = true
+      next()
+      // next({ path: defaultRoutePath })
       NProgress.done()
     } else {
       // check login user.roles is null
-      if (store.getters.roles.length === 0) {
+      if (store.getters.roles && store.getters.roles.length === 0) {
         // request login userInfo
+        let userInfo = goodStorage.get('user')
         store
-          .dispatch('GetInfo')
+          .dispatch('SyncInfo',userInfo) //src\store\modules\user.js
           .then(res => {
-            const roles = res.result && res.result.role
+            const roles = res.data && res.data.roles
             // generate dynamic router
             store.dispatch('GenerateRoutes', { roles }).then(() => {
               // 根据roles权限生成可访问的路由表
@@ -50,29 +56,42 @@ router.beforeEach((to, from, next) => {
               }
             })
           })
-          .catch(() => {
+          .catch((err) => {
+            console.log('SyncInfo err',err);
             notification.error({
               message: '错误',
               description: '请求用户信息失败，请重试'
             })
             // 失败时，获取用户信息失败时，调用登出，来清空历史保留信息
             store.dispatch('Logout').then(() => {
-              next({ path: loginRoutePath, query: { redirect: to.fullPath } })
+
+              console.log('from ', from);
+              console.log('to ', to);
+              console.log('router ',router.path);
+              console.log(333);
+              if(!isLogging){                
+              // next({ path: loginRoutePath, query: { redirect: to.fullPath } })
+              }
             })
+          }).catch(()=>{
+            console.log(444);
           })
       } else {
         next()
       }
     }
-  } else {
+  // } 
+  /* else {
     if (allowList.includes(to.name)) {
       // 在免登录名单，直接进入
+      console.log('在免登录名单，直接进入');
       next()
     } else {
+      console.log('没有权限，回到login');
       next({ path: loginRoutePath, query: { redirect: to.fullPath } })
       NProgress.done() // if current page is login will not trigger afterEach hook, so manually handle it
     }
-  }
+  } */
 })
 
 router.afterEach(() => {

@@ -7,13 +7,14 @@ import App from './App.vue'
 import router from './router'
 import store from './store/'
 import i18n from './locales'
-import { VueAxios } from './utils/request'
+import { $http } from './utils/request'
+
 import ProLayout, { PageHeaderWrapper } from '@ant-design-vue/pro-layout'
 import themePluginConfig from '../config/themePluginConfig'
 
 // mock
 // WARNING: `mockjs` NOT SUPPORT `IE` PLEASE DO NOT USE IN `production` ENV.
-import './mock'
+// import './mock'
 
 import bootstrap from './core/bootstrap'
 import './core/lazy_use' // use lazy load components
@@ -23,8 +24,8 @@ import './global.less' // global style
 
 Vue.config.productionTip = false
 
-// mount axios to `Vue.$http` and `this.$http`
-Vue.use(VueAxios)
+Vue.prototype.$http = $http
+
 // use pro-layout components
 Vue.component('pro-layout', ProLayout)
 Vue.component('page-container', PageHeaderWrapper)

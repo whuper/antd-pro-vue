@@ -7,9 +7,9 @@
         </div>
         <div class="content">
           <div class="content-title">
-            {{ timeFix }}，{{ user.name }}<span class="welcome-text">，{{ welcome }}</span>
+            {{ timeFix }}，{{ user.accountName }}<span class="welcome-text">，{{ welcome }}</span>
           </div>
-          <div>前端工程师 | 蚂蚁金服 - 某某某事业群 - VUE平台</div>
+          <div>{{user.roleName}} | 移动运维</div>
         </div>
       </div>
     </template>
@@ -212,7 +212,7 @@ export default {
       }
     },
     userInfo () {
-      return this.$store.getters.userInfo
+      return this.$store.getters.userInfo // state.user.info
     }
   },
   created () {

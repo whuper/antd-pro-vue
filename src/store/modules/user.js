@@ -1,7 +1,8 @@
 import storage from 'store'
 import { login, getInfo, logout } from '@/api/login'
 import { ACCESS_TOKEN } from '@/store/mutation-types'
-import { welcome } from '@/utils/util'
+import { welcome, objGet } from '@/utils/util'
+import  roleObj from '@/config/roles'
 
 const user = {
   state: {
@@ -34,7 +35,7 @@ const user = {
 
   actions: {
     // 登录
-    Login ({ commit }, userInfo) {
+    Login({ commit }, userInfo) {
       return new Promise((resolve, reject) => {
         login(userInfo).then(response => {
           const result = response.result
@@ -48,40 +49,41 @@ const user = {
     },
 
     // 获取用户信息
-    GetInfo ({ commit }) {
+    SyncInfo({ commit }, userInfo) {
       return new Promise((resolve, reject) => {
-        getInfo().then(response => {
-          const result = response.result
 
-          if (result.role && result.role.permissions.length > 0) {
-            const role = result.role
-            role.permissions = result.role.permissions
-            role.permissions.map(per => {
-              if (per.actionEntitySet != null && per.actionEntitySet.length > 0) {
-                const action = per.actionEntitySet.map(action => { return action.action })
-                per.actionList = action
-              }
-            })
-            role.permissionList = role.permissions.map(permission => { return permission.permissionId })
-            commit('SET_ROLES', result.role)
-            commit('SET_INFO', result)
-          } else {
-            reject(new Error('getInfo: roles must be a non-null array !'))
-          }
+        const result = userInfo
+        console.log('result userInfo ', userInfo);
+        if (objGet(result, 'roles.permissions.length') > 0) {
+          // const role = JSON.parse(JSON.stringify(result.roles))
+          const role = result.roles
+          role.permissions = result.roles.permissions
+          role.permissions.map(per => {
+            if (per.actionEntitySet != null && per.actionEntitySet.length > 0) {
+              const action = per.actionEntitySet.map(action => { return action.action })
+              per.actionList = action
+            }
+          })
+          role.permissionList = role.permissions.map(permission => { return permission.permissionId })
+          commit('SET_ROLES', result.role)
+          commit('SET_INFO', result)
+        } else {
+          reject(new Error('getInfo: roles must be a non-null array !'))
+        }
 
-          commit('SET_NAME', { name: result.name, welcome: welcome() })
-          commit('SET_AVATAR', result.avatar)
-
-          resolve(response)
-        }).catch(error => {
-          reject(error)
+        commit('SET_NAME', { name: result.name, welcome: welcome() })
+        commit('SET_AVATAR', result.avatar)
+        console.log('result ',result);
+        resolve({
+          data:result
         })
+
       })
     },
 
     // 登出
-    Logout ({ commit, state }) {
-      return new Promise((resolve) => {
+    Logout({ commit, state }) {
+      return new Promise((resolve, reject) => {
         logout(state.token).then(() => {
           commit('SET_TOKEN', '')
           commit('SET_ROLES', [])
@@ -89,8 +91,12 @@ const user = {
           resolve()
         }).catch((err) => {
           console.log('logout fail:', err)
-          // resolve()
+          commit('SET_TOKEN', '')
+          commit('SET_ROLES', [])
+          storage.remove(ACCESS_TOKEN)
+          reject('退出失败')
         }).finally(() => {
+          console.log('finally');
         })
       })
     }

@@ -1,53 +1,43 @@
-import request from '@/utils/request'
+import { $http } from '@/utils/request'
 
-const userApi = {
-  Login: '/auth/login',
-  Logout: '/auth/logout',
-  ForgePassword: '/auth/forge-password',
-  Register: '/auth/register',
-  twoStepCode: '/auth/2step-code',
-  SendSms: '/account/sms',
-  SendSmsErr: '/account/sms_err',
-  // get my info
-  UserInfo: '/user/info',
-  UserMenu: '/user/nav'
+/**
+ * 校验用户名密码，返回是否需要验证指纹
+ * @param data
+ * @returns {Promise<unknown>}
+ */
+ export const checkFinger = (data) => {
+  return post('/user/login/checkFinger', data, {
+
+  })
 }
 
 /**
- * login func
- * parameter: {
- *     username: '',
- *     password: '',
- *     remember_me: true,
- *     captcha: '12345'
- * }
- * @param parameter
- * @returns {*}
+ * 校验通过后登录
+ * @param data
+ * @returns {Promise<unknown>}
  */
-export function login (parameter) {
-  return request({
-    url: userApi.Login,
-    method: 'post',
-    data: parameter
+export const login = (data) => {
+  return $http.post('/user/login', data, {
   })
 }
 
-export function getSmsCaptcha (parameter) {
-  return request({
-    url: userApi.SendSms,
-    method: 'post',
-    data: parameter
-  })
+/**
+ * 关机
+ */
+export const shutDown = () => {
+  // return post('/shutdown')
+  return $http.post('/platform/shutdown')
 }
 
-export function getInfo () {
-  return request({
-    url: userApi.UserInfo,
-    method: 'get',
-    headers: {
-      'Content-Type': 'application/json;charset=UTF-8'
-    }
-  })
+/**
+ * 关闭指纹仪
+ */
+export const closeFingerDevice = () => {
+  return $http.get('/fingerprint/closeDevice', )
+}
+
+export function getInfo (userId) {
+  return $http.get('/user/' + userId)
 }
 
 export function getCurrentUserNav () {
@@ -58,13 +48,17 @@ export function getCurrentUserNav () {
 }
 
 export function logout () {
-  return request({
-    url: userApi.Logout,
-    method: 'post',
-    headers: {
-      'Content-Type': 'application/json;charset=UTF-8'
-    }
+  return new Promise((resolve,reject)=>{
+    console.log(432);
+    $http.get('/logout').then((res)=>{
+      resolve(res)
+    }).catch((err)=>{
+      console.log(222);
+      reject(err)
+    })
   })
+  
+  // $http.get('/logout')
 }
 
 /**

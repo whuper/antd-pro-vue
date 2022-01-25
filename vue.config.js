@@ -100,16 +100,31 @@ const vueConfig = {
   },
 
   devServer: {
-    // development server port 8000
-    port: 8000
-    // If you want to turn on the proxy, please remove the mockjs /src/main.jsL11
-    // proxy: {
-    //   '/api': {
-    //     target: 'https://mock.ihx.me/mock/5baf3052f7da7e07e04a5116/antd-pro',
-    //     ws: false,
-    //     changeOrigin: true
-    //   }
-    // }
+    host: '0.0.0.0',
+    port: 8005, // 端口号
+    https: false, // https:{type:Boolean}
+    open: false, // 配置自动启动浏览器  open: 'Google Chrome'-默认启动谷歌
+
+    // 配置多个代理
+    proxy: {
+      '/v1': {
+          target: 'http://127.0.0.1:8085',
+          // target: 'http://192.168.5.35:8085',
+          // target: 'http://192.168.5.247:8085',
+         //target: 'http://192.168.6.192:8085',
+        ws: true, // 代理的WebSockets
+        changeOrigin: true, // 允许websockets跨域
+    /*     pathRewrite: {
+          '^/v1': ''
+        } */
+      },
+      '/wsstone': {
+        // target: 'http://192.168.5.247:8085',
+        target: 'http://127.0.0.1:8085',
+        ws: true, // 代理的WebSockets
+        changeOrigin: true, // 允许websockets跨域
+      }
+    }
   },
 
   // disable source map in production

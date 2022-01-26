@@ -7,7 +7,7 @@
         </div>
         <div class="content">
           <div class="content-title">
-            {{ timeFix }}，{{ user.accountName }}<span class="welcome-text">，{{ welcome }}</span>
+            {{ timeFix }}，{{ user.userName }}<span class="welcome-text">，{{ welcome }}</span>
           </div>
           <div>{{user.roleName}} | 移动运维</div>
         </div>

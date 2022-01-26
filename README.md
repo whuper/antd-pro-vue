@@ -6,12 +6,6 @@
 - 常见问题: https://pro.antdv.com/docs/faq
 - Vue3 ProLayout: https://github.com/vueComponent/pro-layout
 
-Overview
-----
-
-基于 [Ant Design of Vue](https://vuecomponent.github.io/ant-design-vue/docs/vue/introduce-cn/) 实现的 [Ant Design Pro](https://pro.ant.design/) 
-
-![dashboard](https://static-2.loacg.com/open/static/github/SP1.png)
 
 环境和依赖
 ----

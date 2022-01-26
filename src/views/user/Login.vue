@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <a-form id="formLogin" class="user-layout-login" ref="formLogin" :form="form" @submit="handleSubmit">
+    <a-form-model id="formLogin" class="user-layout-login" ref="formLogin" :model="form" @submit="handleSubmit" @submit.native.prevent>
       <div class="new-box">
         <a-alert
           v-if="isLoginError"
@@ -9,50 +9,32 @@
           style="margin-bottom: 24px"
           :message="$t('user.login.message-invalid-credentials')"
         />
-        <a-form-item>
+        <a-form-model-item>
           <a-input
             size="large"
             type="text"
             :placeholder="$t('user.login.username.placeholder')"
-            v-decorator="[
-              'userName',
-              {
-                rules: [
-                  { required: true, message: $t('user.userName.required') },
-                  { validator: handleUsernameOrEmail },
-                ],
-                validateTrigger: 'change',
-              },
-            ]"
+            v-model="form.userName"
           >
             <a-icon slot="prefix" type="user" :style="{ color: 'rgba(0,0,0,.25)' }" />
           </a-input>
-        </a-form-item>
+        </a-form-model-item>
 
-        <a-form-item>
-          <a-input-password
-            size="large"
-            :placeholder="$t('user.login.password.placeholder')"
-            v-decorator="[
-              'password',
-              { rules: [{ required: true, message: $t('user.password.required') }], validateTrigger: 'blur' },
-            ]"
-          >
+        <a-form-model-item>
+          <a-input-password size="large" :placeholder="$t('user.login.password.placeholder')" v-model="form.password">
             <a-icon slot="prefix" type="lock" :style="{ color: 'rgba(0,0,0,.25)' }" />
           </a-input-password>
-        </a-form-item>
+        </a-form-model-item>
       </div>
 
-      <a-form-item>
-        <a-checkbox v-decorator="['rememberMe', { valuePropName: 'checked' }]">{{
-          $t('user.login.remember-me')
-        }}</a-checkbox>
+      <a-form-model-item>
+        <a-checkbox v-model="form.rememberMe">{{ $t('user.login.remember-me') }}</a-checkbox>
         <router-link :to="{ name: 'recover', params: { user: 'aaa' } }" class="forge-password" style="float: right">{{
           $t('user.login.forgot-password')
         }}</router-link>
-      </a-form-item>
+      </a-form-model-item>
 
-      <a-form-item style="margin-top: 24px">
+      <a-form-model-item style="margin-top: 24px">
         <a-button
           size="large"
           type="primary"
@@ -62,12 +44,12 @@
           :disabled="state.loginBtn"
           >{{ $t('user.login.login') }}</a-button
         >
-      </a-form-item>
+      </a-form-model-item>
 
       <div class="user-login-other">
         <router-link class="register" :to="{ name: 'register' }">{{ $t('user.login.signup') }}</router-link>
       </div>
-    </a-form>
+    </a-form-model>
 
     <two-step-captcha
       v-if="requiredTwoStepCaptcha"
@@ -83,9 +65,9 @@ import md5 from 'md5'
 import TwoStepCaptcha from '@/components/tools/TwoStepCaptcha'
 import { timeFix } from '@/utils/util'
 import { mapActions } from 'vuex'
-import { checkFinger, shutDown, login,getSmsCaptcha, get2step } from '@/api/login'
-import { goodStorage } from "@/utils/storage";
-import  roleObj from '@/config/roles'
+import { checkFinger, shutDown, login, getSmsCaptcha, get2step } from '@/api/login'
+import { goodStorage } from '@/utils/storage'
+import roleObj from '@/config/roles'
 
 export default {
   components: {
@@ -100,7 +82,11 @@ export default {
       isLoginError: false,
       requiredTwoStepCaptcha: false,
       stepCaptchaVisible: false,
-      form: this.$form.createForm(this),
+      form: {
+        userName: 'admin',
+        password: 'ADmin@123',
+        rememberMe: true,
+      },
       state: {
         time: 60,
         loginBtn: false,
@@ -125,45 +111,29 @@ export default {
       callback()
     },
     handleSubmit(e) {
-      e.preventDefault()
-      const {
-        form: { validateFields },
-        state,
-        customActiveKey,
-      } = this
+      const loginParams = { ...this.form }
+      loginParams.password = md5('@12AQh#909' + md5(this.form.password))
 
-      state.loginBtn = true
-
-      const validateFieldsKey = ['userName', 'password']
-
-      validateFields(validateFieldsKey, { force: true }, (err, values) => {
-        if (!err) {
-  
-          const loginParams = { ...values }
-          loginParams.password = md5('@12AQh#909' + md5(values.password))
-
-          login(loginParams)
-            .then((res) => {
-              if (res.result) {
-                res.data.roles = roleObj
-                this.loginSuccess(res.data)
-              } else {
-                this.$notification.success({
-                  message: 'err',
-                  description: '登录失败',
-                })
-              }
+      delete loginParams.rememberMe 
+      
+      console.log('loginParams ',loginParams);
+      login(loginParams)
+        .then((res) => {
+          if (res.result) {
+            console.log('login res',res);
+            res.data.roles = roleObj
+            this.loginSuccess(res.data)
+          } else {
+            this.$notification.success({
+              message: 'err',
+              description: '登录失败',
             })
-            .catch((err) => this.requestFailed(err))
-            .finally(() => {
-              state.loginBtn = false
-            })
-        } else {
-          setTimeout(() => {
-            state.loginBtn = false
-          }, 600)
-        }
-      })
+          }
+        })
+        .catch((err) => this.requestFailed(err))
+        .finally(() => {
+          this.state.loginBtn = false
+        })
     },
     stepCaptchaSuccess() {
       this.loginSuccess()
@@ -186,7 +156,7 @@ export default {
         })
       })
       */
-     goodStorage.set("user", userInfo);
+      goodStorage.set('user', userInfo)
       this.$router.push({ path: '/' })
       // 延迟 1 秒显示欢迎信息
       setTimeout(() => {

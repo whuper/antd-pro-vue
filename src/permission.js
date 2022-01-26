@@ -65,10 +65,6 @@ router.beforeEach((to, from, next) => {
             // 失败时，获取用户信息失败时，调用登出，来清空历史保留信息
             store.dispatch('Logout').then(() => {
 
-              console.log('from ', from);
-              console.log('to ', to);
-              console.log('router ',router.path);
-              console.log(333);
               if(!isLogging){                
               // next({ path: loginRoutePath, query: { redirect: to.fullPath } })
               }

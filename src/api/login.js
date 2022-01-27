@@ -5,7 +5,7 @@ import qs from 'qs'
  * @param data
  * @returns {Promise<unknown>}
  */
- export const checkFinger = (data) => {
+export const checkFinger = (data) => {
   return post('/user/login/checkFinger', data, {
 
   })
@@ -25,11 +25,11 @@ export const login = (data) => {
   console.log(data);
   let config = {
     headers: {
-      "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"   
+      "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
     },
   };
 
-  return $http.post('/user/login', qs.stringify(data),config)
+  return $http.post('/user/login', qs.stringify(data), config)
 }
 
 /**
@@ -44,31 +44,31 @@ export const shutDown = () => {
  * 关闭指纹仪
  */
 export const closeFingerDevice = () => {
-  return $http.get('/fingerprint/closeDevice', )
+  return $http.get('/fingerprint/closeDevice',)
 }
 
-export function getInfo (userId) {
+export function getInfo(userId) {
   return $http.get('/user/' + userId)
 }
 
-export function getCurrentUserNav () {
+export function getCurrentUserNav() {
   return request({
     url: userApi.UserMenu,
     method: 'get'
   })
 }
 
-export function logout () {
-  return new Promise((resolve,reject)=>{
+export function logout() {
+  return new Promise((resolve, reject) => {
     console.log(432);
-    $http.get('/logout').then((res)=>{
+    $http.post('/user/logout').then((res) => {
       resolve(res)
-    }).catch((err)=>{
+    }).catch((err) => {
       console.log(222);
-      reject(err)
+      resolve(err)
     })
   })
-  
+
   // $http.get('/logout')
 }
 
@@ -76,7 +76,7 @@ export function logout () {
  * get user 2step code open?
  * @param parameter {*}
  */
-export function get2step (parameter) {
+export function get2step(parameter) {
   return request({
     url: userApi.twoStepCode,
     method: 'post',

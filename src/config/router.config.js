@@ -8,6 +8,8 @@ const RouteView = {
 }
 
 export const asyncRouterMap = [
+
+
   {
     path: '/',
     name: 'index',
@@ -15,6 +17,28 @@ export const asyncRouterMap = [
     meta: { title: 'menu.home' },
     redirect: '/dashboard/workplace',
     children: [
+      // 管理员
+      {
+        path: '/admin',
+        name: 'admin',
+        component: RouteView,
+        redirect: '/list/user-list',
+        meta: { title: '管理员操作', icon: 'check-circle-o', permission: ['other1'] },
+        children: [
+          {
+            path: '/other/list/user-list',
+            name: 'UserList',
+            component: () => import('@/views/newp/UserList'),
+            meta: { title: '帐号管理'}
+          },
+          {
+            path: '/list/device-list',
+            name: 'devicelist',
+            component: () => import('@/views/newp/DeviceList'),
+            meta: { title: '装置管理', permission: ['other1'] }
+          }
+        ]
+      },
       // dashboard
       {
         path: '/dashboard',

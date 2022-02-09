@@ -8,12 +8,13 @@
     createTime: 1497160610259,
     deleted: 0,
     permissions: [
+      /*
       {
         roleId: 'admin',
         permissionId: 'dashboard',
         permissionName: '仪表盘'
       },
-      {
+       {
         roleId: 'admin',
         permissionId: 'result',
         permissionName: '结果权限'
@@ -57,7 +58,7 @@
         roleId: 'admin',
         permissionId: 'user',
         permissionName: '用户管理'
-      },
+      }, */
       {
         roleId: 'admin',
         permissionId: 'other1',

@@ -33,9 +33,15 @@ export const asyncRouterMap = [
           },
           {
             path: '/list/device-list',
-            name: 'devicelist',
+            name: 'Devicelist',
             component: () => import('@/views/newp/DeviceList'),
             meta: { title: '装置管理', permission: ['other1'] }
+          },
+          {
+            path: '/list/syc-config',
+            name: 'SycConfig',
+            component: () => import('@/views/newp/SycConfig'),
+            meta: { title: '系统设置', permission: ['other1'] }
           }
         ]
       },

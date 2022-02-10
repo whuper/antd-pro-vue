@@ -29,7 +29,7 @@
         </a-form>
       </div>
       <a-button type="primary" @click="showModal">新增</a-button>
-      <a-table :columns="columns" :data-source="userlist">
+      <a-table :columns="columns" :data-source="userlist"  rowKey="id">
         <a slot="name" slot-scope="text">{{ text }}</a>
         <span slot="customTitle"><a-icon type="smile-o" /> Name</span>
         <span slot="tags" slot-scope="tags">

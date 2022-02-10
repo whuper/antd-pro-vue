@@ -74,7 +74,14 @@ export default {
   },
   created() {},
 
-  methods: {},
+  methods: {
+    handleSubmit(e){
+
+      console.log(e);
+
+    },
+
+  },
 }
 </script>
 <style lang="less" scoped>

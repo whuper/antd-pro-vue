@@ -1,7 +1,6 @@
 import { asyncRouterMap, constantRouterMap } from '@/config/router.config'
 import cloneDeep from 'lodash.clonedeep'
 
-console.log('asyncRouterMap ',asyncRouterMap);
 /**
  * 过滤账户是否拥有某一个权限，并将菜单从加载列表移除
  *
@@ -65,6 +64,7 @@ const permission = {
     SET_ROUTERS: (state, payload) => {
       state.addRouters = payload
       state.routers = constantRouterMap.concat(payload)
+      console.log('state.routers', state.routers)
     }
   },
   actions: {
@@ -73,7 +73,7 @@ const permission = {
         const { roles } = data
 
         // hasPermission方法遍历的是接口返回来的数据(roles--->res.result.role)
-    
+
         const routerMap = cloneDeep(asyncRouterMap)
         const accessedRouters = filterAsyncRouter(routerMap, roles)
         commit('SET_ROUTERS', accessedRouters)

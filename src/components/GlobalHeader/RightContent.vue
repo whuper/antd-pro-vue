@@ -1,7 +1,7 @@
 <template>
   <div :class="wrpCls">
     <avatar-dropdown :menu="showMenu" :current-user="currentUser" :class="prefixCls" />
-    <select-lang :class="prefixCls" />
+<!--    <select-lang :class="prefixCls" />-->
   </div>
 </template>
 
@@ -36,7 +36,7 @@ export default {
   data () {
     return {
       showMenu: true,
-      currentUser: {}
+      currentUser: { name: this.$store.getters.userInfo.userName }
     }
   },
   computed: {
@@ -45,14 +45,7 @@ export default {
         'ant-pro-global-header-index-right': true,
         [`ant-pro-global-header-index-${(this.isMobile || !this.topMenu) ? 'light' : this.theme}`]: true
       }
-    }
+    },
   },
-  mounted () {
-    setTimeout(() => {
-      this.currentUser = {
-        name: 'Serati Ma'
-      }
-    }, 1500)
-  }
 }
 </script>

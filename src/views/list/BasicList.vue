@@ -146,8 +146,8 @@ export default {
         {
           record: {},
           on: {
-            ok () {
-              console.log('ok 回调')
+            ok (e) {
+              console.log('ok 回调', e)
             },
             cancel () {
               console.log('cancel 回调')

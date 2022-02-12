@@ -21,20 +21,20 @@ const isProd = process.env.NODE_ENV === 'production'
 
 const assetsCDN = {
   // webpack build externals
-  externals: {
-    vue: 'Vue',
-    'vue-router': 'VueRouter',
-    vuex: 'Vuex',
-    axios: 'axios'
-  },
-  css: [],
-  // https://unpkg.com/browse/vue@2.6.10/
-  js: [
-    '//cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js',
-    '//cdn.jsdelivr.net/npm/vue-router@3.5.1/dist/vue-router.min.js',
-    '//cdn.jsdelivr.net/npm/vuex@3.1.1/dist/vuex.min.js',
-    '//cdn.jsdelivr.net/npm/axios@0.21.1/dist/axios.min.js'
-  ]
+  // externals: {
+  //   vue: 'Vue',
+  //   'vue-router': 'VueRouter',
+  //   vuex: 'Vuex',
+  //   axios: 'axios'
+  // },
+  // css: [],
+  // // https://unpkg.com/browse/vue@2.6.10/
+  // js: [
+  //   '//cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js',
+  //   '//cdn.jsdelivr.net/npm/vue-router@3.5.1/dist/vue-router.min.js',
+  //   '//cdn.jsdelivr.net/npm/vuex@3.1.1/dist/vuex.min.js',
+  //   '//cdn.jsdelivr.net/npm/axios@0.21.1/dist/axios.min.js'
+  // ]
 }
 
 // vue.config.js
@@ -107,9 +107,9 @@ const vueConfig = {
 
     // 配置多个代理
     proxy: {
-      '/v1': {
-          // target: 'http://127.0.0.1:8085',
-          target: 'http://192.168.1.231:80',
+      'api/v1': {
+          target: 'http://127.0.0.1:8087',
+          // target: 'http://192.168.1.231:80',
           // target: 'http://192.168.5.35:8085',
           // target: 'http://192.168.5.247:8085',
          //target: 'http://192.168.6.192:8085',
@@ -121,7 +121,7 @@ const vueConfig = {
       },
       '/wsstone': {
         // target: 'http://192.168.5.247:8085',
-        target: 'http://127.0.0.1:8085',
+        target: 'http://127.0.0.1:8087',
         ws: true, // 代理的WebSockets
         changeOrigin: true, // 允许websockets跨域
       }

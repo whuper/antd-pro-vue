@@ -29,7 +29,8 @@ router.beforeEach((to, from, next) => {
     NProgress.done()
   } else {
     // check login user.roles is null
-    if (store.getters.roles && store.getters.roles.length === 0) {
+    console.log('store.getters.roles', store.getters.roles)
+    if (store.getters.roles && !store.getters.roles.id) {
       // request login userInfo
       let userInfo = goodStorage.get('user')
       store
@@ -75,7 +76,7 @@ router.beforeEach((to, from, next) => {
       next()
     }
   }
-  // } 
+  // }
   /* else {
     if (allowList.includes(to.name)) {
       // 在免登录名单，直接进入

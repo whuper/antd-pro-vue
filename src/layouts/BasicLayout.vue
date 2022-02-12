@@ -13,20 +13,20 @@
           我们推荐使用这种方式进行 LOGO 和 title 自定义
     -->
     <template v-slot:menuHeaderRender>
-      <div>
-        <logo-svg />
-        <h1>{{ title }}41234</h1>
+      <div style="white-space: nowrap">
+        <img src="../assets/logo/head_logo.png">
+        <h1 v-if="!collapsed" class="head-title" style="font-weight: normal">{{ app.productName }}</h1>
       </div>
     </template>
     <!-- 1.0.0+ 版本 pro-layout 提供 API,
           增加 Header 左侧内容区自定义
     -->
     <template v-slot:headerContentRender>
-      <div>
-        <a-tooltip title="刷新页面">
-          <a-icon type="reload" style="font-size: 18px;cursor: pointer;" @click="() => { $message.info('只是一个DEMO') }" />
-        </a-tooltip>
-      </div>
+<!--      <div>-->
+<!--        <a-tooltip title="刷新页面">-->
+<!--          <a-icon type="reload" style="font-size: 18px;cursor: pointer;" @click="() => { $message.info('只是一个DEMO') }" />-->
+<!--        </a-tooltip>-->
+<!--      </div>-->
     </template>
 <!--
     <setting-drawer v-if="isDev" :settings="settings" @change="handleSettingChange">
@@ -40,7 +40,7 @@
     </template>
     <!-- custom footer / 自定义Footer -->
     <template v-slot:footerRender>
-      <global-footer />
+<!--      <global-footer />-->
     </template>
     <router-view />
   </pro-layout>
@@ -103,7 +103,8 @@ export default {
   computed: {
     ...mapState({
       // 动态主路由
-      mainMenu: state => state.permission.addRouters
+      mainMenu: state => state.permission.addRouters,
+      app: state => state.app
     })
   },
   created () {
@@ -175,4 +176,7 @@ export default {
 
 <style lang="less">
 @import "./BasicLayout.less";
+.head-title{
+  white-space: nowrap;
+}
 </style>

@@ -22,56 +22,52 @@ const instance = axios.create({
   }
 })
 
+const codeMessage = {
+  200: '服务器成功返回请求的数据。',
+  201: '新建或修改数据成功。',
+  202: '一个请求已经进入后台排队（异步任务）。',
+  204: '删除数据成功。',
+  400: '发出的请求有错误，服务器没有进行新建或修改数据的操作。',
+  401: '用户没有权限（令牌、用户名、密码错误）。',
+  403: '用户得到授权，但是访问是被禁止的。',
+  404: '发出的请求针对的是不存在的记录，服务器没有进行操作。',
+  406: '请求的格式不可得。',
+  410: '请求的资源被永久删除，且不会再得到的。',
+  422: '当创建一个对象时，发生一个验证错误。',
+  500: '服务器发生错误，请检查服务器。',
+  502: '网关错误。',
+  503: '服务不可用，服务器暂时过载或维护。',
+  504: '网关超时。'
+}
+
 
 // 异常拦截处理器
 const errorHandler = (error,reject) => {
   if (error.response) {
-    // 从 localstorage 获取 token
-    const token = goodStorage.get(ACCESS_TOKEN)
+    notification.error({
+      message: 'error',
+      description: codeMessage[error.response.status]
+    })
+    error.info = codeMessage[error.response.status]
     switch (error.response.status) {
       // 未登录
       case 401:
-        notification.error({
-          message: 'error',
-          description: '您还未登录!!'
-        })
-        error.info = '您还未登录'
         //清空用户信息
-        goodStorage.remove("user");
-        // vm.$router.push('/login')
+        goodStorage.remove('user')
+        vm.$router.push('/login')
         break
       case 403:
-        notification.error({
-          message: 'error',
-          description: '登录失效!!'
-        })
-        error.info = '登录失效'
         break
       case 404:
-        // Toast.fail('资源不存在');
-        error.info = '资源不存在'
+
         // 请求丢失
         break
       case 500:
-        notification.error({
-          message: 'error',
-          description: '服务端异常，请系统管理员'
-        })
-        error.info = '服务端异常，请系统管理员'
-        // 请求丢失
         break
       default:
         reject(error)
         break
     }
-    /*     if (token) {
-          store.dispatch('Logout').then(() => {
-            setTimeout(() => {
-              window.location.reload()
-            }, 1500)
-          })
-        } */
-
   }
   reject(error)
 }
@@ -87,7 +83,11 @@ instance.interceptors.request.use(
     if (config.method === 'get') {
       const now = `${Date.now()}`
       if (config.params) {
-        config.params[now] = now
+        config.params[now] = now;
+        if(config.params.pageNo){ // 统一修改pageNo 参数为 page
+          config.params.page = config.params.pageNo;
+          delete config.params.pageNo;
+        }
       } else {
         const hasParams = config.url.includes('?')
         config.url = config.url + (hasParams ? '&' : '?') + `${now}=${now}`
@@ -105,6 +105,13 @@ instance.interceptors.request.use(
 )
 
 // 响应拦截器，对返回数据进行预处理
+/**
+ * {
+ *   data: any,
+ *   result: boolean,
+ *   msg: string.
+ * }
+ */
 instance.interceptors.response.use(
   response => {
     if (!response.data.result && response.data.msg) {
@@ -126,8 +133,12 @@ const request = (options = {}) => {
   return new Promise((resolve, reject) => {
     instance(options)
       .then((responseData) => {
-        resolve(responseData.data)
-
+        const resData = responseData.data;
+        if(resData.result){
+          resolve(resData.data) // 正确情况下直接返回data
+        }else{
+          reject(resData.msg)
+        }
       }, (err)=>{
         errorHandler(err,reject)
       }

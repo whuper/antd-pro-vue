@@ -60,11 +60,9 @@ export function getCurrentUserNav() {
 
 export function logout() {
   return new Promise((resolve, reject) => {
-    console.log(432);
     $http.post('/user/logout').then((res) => {
       resolve(res)
     }).catch((err) => {
-      console.log(222);
       resolve(err)
     })
   })

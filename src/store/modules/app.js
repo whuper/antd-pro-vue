@@ -15,6 +15,7 @@ import {
   APP_LANGUAGE
 } from '@/store/mutation-types'
 import { loadLanguageAsync } from '@/locales'
+const appConfig = require('@/assets/appConfig.json');
 
 const app = {
   state: {
@@ -30,7 +31,8 @@ const app = {
     weak: false,
     multiTab: true,
     lang: 'en-US',
-    _antLocale: {}
+    _antLocale: {},
+    ...appConfig
   },
   mutations: {
     [SIDEBAR_TYPE]: (state, type) => {

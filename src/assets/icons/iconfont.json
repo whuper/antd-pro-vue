@@ -1,0 +1,156 @@
+{
+  "id": "2930624",
+  "name": "移动运维-706",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "25882833",
+      "name": "usb",
+      "font_class": "usb",
+      "unicode": "e656",
+      "unicode_decimal": 58966
+    },
+    {
+      "icon_id": "25789645",
+      "name": "文件路径",
+      "font_class": "wenjianlujing",
+      "unicode": "e654",
+      "unicode_decimal": 58964
+    },
+    {
+      "icon_id": "25789478",
+      "name": "恶意代码",
+      "font_class": "eyidaima",
+      "unicode": "e655",
+      "unicode_decimal": 58965
+    },
+    {
+      "icon_id": "25747832",
+      "name": "修改密码-icon",
+      "font_class": "xiugaimima-icon",
+      "unicode": "e653",
+      "unicode_decimal": 58963
+    },
+    {
+      "icon_id": "25747362",
+      "name": "返回-icon",
+      "font_class": "fanhui-icon",
+      "unicode": "e652",
+      "unicode_decimal": 58962
+    },
+    {
+      "icon_id": "25747233",
+      "name": "新建-icon",
+      "font_class": "xinjian-icon",
+      "unicode": "e650",
+      "unicode_decimal": 58960
+    },
+    {
+      "icon_id": "25747234",
+      "name": "查询-icon",
+      "font_class": "chaxun-icon",
+      "unicode": "e651",
+      "unicode_decimal": 58961
+    },
+    {
+      "icon_id": "25747074",
+      "name": "账户-nor",
+      "font_class": "zhanghu-nor",
+      "unicode": "e64f",
+      "unicode_decimal": 58959
+    },
+    {
+      "icon_id": "25747068",
+      "name": "任务审计-nor",
+      "font_class": "renwushenji-nor",
+      "unicode": "e649",
+      "unicode_decimal": 58953
+    },
+    {
+      "icon_id": "25747069",
+      "name": "任务-nor",
+      "font_class": "renwu-nor",
+      "unicode": "e64a",
+      "unicode_decimal": 58954
+    },
+    {
+      "icon_id": "25747070",
+      "name": "告警-onr",
+      "font_class": "gaojing-onr",
+      "unicode": "e64b",
+      "unicode_decimal": 58955
+    },
+    {
+      "icon_id": "25747071",
+      "name": "设置-nor",
+      "font_class": "shezhi-nor",
+      "unicode": "e64c",
+      "unicode_decimal": 58956
+    },
+    {
+      "icon_id": "25747072",
+      "name": "策略-nor",
+      "font_class": "celve-nor",
+      "unicode": "e64d",
+      "unicode_decimal": 58957
+    },
+    {
+      "icon_id": "25747073",
+      "name": "日志-nor",
+      "font_class": "rizhi-nor",
+      "unicode": "e64e",
+      "unicode_decimal": 58958
+    },
+    {
+      "icon_id": "25626569",
+      "name": "关机",
+      "font_class": "guanji",
+      "unicode": "e648",
+      "unicode_decimal": 58952
+    },
+    {
+      "icon_id": "25625560",
+      "name": "配置",
+      "font_class": "peizhi",
+      "unicode": "e645",
+      "unicode_decimal": 58949
+    },
+    {
+      "icon_id": "25625561",
+      "name": "提示",
+      "font_class": "tishi",
+      "unicode": "e646",
+      "unicode_decimal": 58950
+    },
+    {
+      "icon_id": "25625562",
+      "name": "未启用",
+      "font_class": "weiqiyong",
+      "unicode": "e647",
+      "unicode_decimal": 58951
+    },
+    {
+      "icon_id": "25625557",
+      "name": "编辑",
+      "font_class": "bianji",
+      "unicode": "e642",
+      "unicode_decimal": 58946
+    },
+    {
+      "icon_id": "25625558",
+      "name": "连接",
+      "font_class": "lianjie",
+      "unicode": "e643",
+      "unicode_decimal": 58947
+    },
+    {
+      "icon_id": "25625559",
+      "name": "连通",
+      "font_class": "liantong",
+      "unicode": "e644",
+      "unicode_decimal": 58948
+    }
+  ]
+}

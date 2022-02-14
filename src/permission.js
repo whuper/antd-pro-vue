@@ -16,6 +16,8 @@ const defaultRoutePath = '/dashboard/workplace'
 
 
 router.beforeEach((to, from, next) => {
+
+  console.log('beforeEach## ',to);
   var isLogging = false
   NProgress.start() // start progress bar
   to.meta && typeof to.meta.title !== 'undefined' && setDocumentTitle(`${i18nRender(to.meta.title)} - ${domTitle}`)
@@ -32,7 +34,7 @@ router.beforeEach((to, from, next) => {
     console.log('store.getters.roles ##1', store.getters.roles)
     if (!store.getters.roles || !store.getters.roles.id) {
       // request login userInfo
-      console.log('生成权限菜单。');
+      console.log('生成权限菜单');
       store
         .dispatch('SyncInfo') //src\store\modules\user.js
         .then(res => {
@@ -43,7 +45,6 @@ router.beforeEach((to, from, next) => {
             // 动态添加可访问路由表
             // VueRouter@3.5.0+ New API
             store.getters.addRouters.forEach(r => {
-              console.log('addRouters item ', r);
               router.addRoute(r)
             })
             // 请求带有 redirect 重定向时，登录自动重定向到该地址
@@ -69,11 +70,8 @@ router.beforeEach((to, from, next) => {
               next({ path: loginRoutePath, query: { redirect: to.fullPath } })
             }
           })
-        }).catch(() => {
-          console.log(444);
         })
     } else {
-      console.log('store.getters.roles ##2', store.getters.roles);
       next()
     }
   }

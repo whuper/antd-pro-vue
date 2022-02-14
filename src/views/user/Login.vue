@@ -37,7 +37,8 @@
 import md5 from 'md5'
 import { timeFix } from '@/utils/util'
 import { mapActions, mapMutations, mapState } from 'vuex'
-
+import router from '@/router'
+import store from '@/store'
 export default {
   name: 'Login',
   data() {
@@ -67,7 +68,7 @@ export default {
         }
       })
     },
-async afterLogin(res) {
+/* async afterLogin(res) {
 
     console.log('afterLogin');
 
@@ -84,12 +85,17 @@ async afterLogin(res) {
             })
           }, 500)
      
-      },
-/*     async afterLogin(res) {
+      }, */
+    async afterLogin(res) {
       const loginRes = res
       if (loginRes) {
         const translatedInfo = await this.SyncInfo(loginRes);
         this.GenerateRoutes(translatedInfo.data).then( value => {
+          
+           store.getters.addRouters.forEach(r => {
+              router.addRoute(r)
+            }) 
+
           // 等待同步完路由信息
           this.$nextTick(() => {
             this.$router.push('/admin')
@@ -103,7 +109,7 @@ async afterLogin(res) {
           }, 500)
         })
       }
-    }, */
+    },
     onClose() {
       this.error = false
     }

@@ -38,12 +38,11 @@ const user = {
     // 登录
     Login({ commit }, userInfo) {
       return new Promise((resolve, reject) => {
-        login(userInfo).then(response => {
-          /*           
+        login(userInfo).then(response => {                   
           commit('SET_TOKEN', response.id)
           commit('SET_INFO', response)
           commit('SET_NAME', { name: response.userName })
-          commit('SET_ROLES', translateRole(response)) */
+          commit('SET_ROLES', translateRole(response))
           goodStorage.set('user', response)
           resolve(response)
         }).catch(error => {

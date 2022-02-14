@@ -67,11 +67,11 @@ export default {
         }
       })
     },
-    async afterLogin(res) {
-      const loginRes = res
-      if (loginRes) {
-        const translatedInfo = await this.SyncInfo(loginRes);
-        this.GenerateRoutes(translatedInfo.data).then( value => {
+async afterLogin(res) {
+
+    console.log('afterLogin');
+
+
           // 等待同步完路由信息
           this.$nextTick(() => {
             this.$router.push('/')
@@ -83,9 +83,27 @@ export default {
               description: `${timeFix()}，欢迎回来`,
             })
           }, 500)
+     
+      },
+/*     async afterLogin(res) {
+      const loginRes = res
+      if (loginRes) {
+        const translatedInfo = await this.SyncInfo(loginRes);
+        this.GenerateRoutes(translatedInfo.data).then( value => {
+          // 等待同步完路由信息
+          this.$nextTick(() => {
+            this.$router.push('/admin')
+          })
+          // 延迟 1 秒显示欢迎信息
+          setTimeout(() => {
+            this.$notification.success({
+              message: '欢迎',
+              description: `${timeFix()}，欢迎回来`,
+            })
+          }, 500)
         })
       }
-    },
+    }, */
     onClose() {
       this.error = false
     }

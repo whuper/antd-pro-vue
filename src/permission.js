@@ -29,12 +29,12 @@ router.beforeEach((to, from, next) => {
     NProgress.done()
   } else {
     // check login user.roles is null
-    console.log('store.getters.roles', store.getters.roles)
-    if (store.getters.roles && !store.getters.roles.id) {
+    console.log('store.getters.roles ##1', store.getters.roles)
+    if (!store.getters.roles || !store.getters.roles.id) {
       // request login userInfo
-      let userInfo = goodStorage.get('user')
+      console.log('生成权限菜单。');
       store
-        .dispatch('SyncInfo', userInfo) //src\store\modules\user.js
+        .dispatch('SyncInfo') //src\store\modules\user.js
         .then(res => {
           const roles = res.data && res.data.roles
           // generate dynamic router
@@ -73,6 +73,7 @@ router.beforeEach((to, from, next) => {
           console.log(444);
         })
     } else {
+      console.log('store.getters.roles ##2', store.getters.roles);
       next()
     }
   }

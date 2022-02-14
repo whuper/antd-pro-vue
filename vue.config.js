@@ -108,7 +108,7 @@ const vueConfig = {
     // 配置多个代理
     proxy: {
       'api/v1': {
-          target: 'http://127.0.0.1:8087',
+          target: 'http://192.168.1.231:80',
           // target: 'http://192.168.1.231:80',
           // target: 'http://192.168.5.35:8085',
           // target: 'http://192.168.5.247:8085',

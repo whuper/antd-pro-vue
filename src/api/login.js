@@ -69,6 +69,9 @@ export function logout() {
 
   // $http.get('/logout')
 }
+export function getSmsCaptcha(){
+  return null
+}
 
 /**
  * get user 2step code open?

@@ -8,7 +8,6 @@ export const DeviceListService = {
    */
   async getListByPage(params){
     return $http.get('/equipment/list', params).then(value => {
-      console.log(value)
       return {
         pageNo: params.pageNo,
         data: value.items || [],

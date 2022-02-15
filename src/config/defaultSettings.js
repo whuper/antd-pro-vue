@@ -23,7 +23,7 @@ export default {
   menu: {
     locale: false
   },
-  title: '',
+  title: '检修作业安全运维管理平台',
   pwa: false,
   iconfontUrl: '',
   production: process.env.NODE_ENV === 'production' && process.env.VUE_APP_PREVIEW !== 'true'

@@ -1,6 +1,6 @@
 import axios from 'axios'
-import vm from '../main'
-
+// import vm from '../main'
+import router from '../router'
 // import { baseApi } from '../config'
 
 import store from '@/store'
@@ -54,7 +54,7 @@ const errorHandler = (error,reject) => {
       case 401:
         //清空用户信息
         goodStorage.remove('user')
-        vm.$router.push('/login')
+        router.push('/login')
         break
       case 403:
         break
@@ -68,8 +68,14 @@ const errorHandler = (error,reject) => {
         reject(error)
         break
     }
+  } else {
+    notification.error({
+      message: '接口请求失败,请联系管理员！',
+      description: error
+    })
+    reject(error)
   }
-  reject(error)
+
 }
 
 
@@ -134,10 +140,11 @@ const request = (options = {}) => {
     instance(options)
       .then((responseData) => {
         const resData = responseData.data;
-        if(resData.result){
+        if(resData && resData.result){
           resolve(resData.data) // 正确情况下直接返回data
         }else{
-          reject(resData.msg)
+          // reject(responseData)
+          errorHandler(JSON.stringify(responseData),reject)
         }
       }, (err)=>{
         errorHandler(err,reject)

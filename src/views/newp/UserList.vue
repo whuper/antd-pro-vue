@@ -3,33 +3,29 @@
     <h3 class="tab-title">帐号管理</h3>
     <a-card :bordered="false">
       <div class="table-page-search-wrapper">
-        <a-form layout="inline">
+        <a-form-model layout="inline" ref="searchFormRef" :model="searchForm">
           <a-row :gutter="48">
             <a-col :md="8" :sm="24">
-              <a-form-item label="角色ID">
-                <a-input placeholder="请输入" />
-              </a-form-item>
+              <a-form-model-item prop="userName"  label="姓名">
+                <a-input v-model="searchForm.userName" placeholder="请输入姓名" />
+              </a-form-model-item>
             </a-col>
             <a-col :md="8" :sm="24">
-              <a-form-item label="状态">
-                <a-select placeholder="请选择" default-value="0">
-                  <a-select-option value="0">全部</a-select-option>
-                  <a-select-option value="1">关闭</a-select-option>
-                  <a-select-option value="2">运行中</a-select-option>
-                </a-select>
-              </a-form-item>
+              <a-form-model-item  prop="loginName" label="用户名">
+                <a-input v-model="searchForm.loginName" placeholder="请输入用户名" />
+              </a-form-model-item>
             </a-col>
             <a-col :md="8" :sm="24">
               <span class="table-page-search-submitButtons">
-                <a-button type="primary">查询</a-button>
-                <a-button style="margin-left: 8px">重置</a-button>
+                <a-button type="primary" @click="search">查询</a-button>
+                <a-button style="margin-left: 8px" @click="resetForm">重置</a-button>
               </span>
             </a-col>
           </a-row>
-        </a-form>
+        </a-form-model>
       </div>
       <a-button type="primary" @click="showModal">新增</a-button>
-      <a-table :columns="columns" :data-source="userlist"  rowKey="id">
+      <a-table :columns="columns" :data-source="userlist" rowKey="id">
         <a slot="name" slot-scope="text">{{ text }}</a>
         <span slot="customTitle"><a-icon type="smile-o" /> Name</span>
         <span slot="tags" slot-scope="tags">
@@ -168,6 +164,10 @@ export default {
       wrapperCol: { span: 14 },
       currentAction: '新增', //新增，编辑用户，// 修改密码
       currentUser: {},
+      searchForm: {
+        userName: '', //姓名
+        loginName: '', //用户名
+      },
       userform: {
         userName: '', //姓名
         loginName: undefined, //用户名
@@ -184,9 +184,16 @@ export default {
     this.getUserList()
   },
   methods: {
-    getUserList() {
-      this.$http.get('user/list').then((res) => {
-        this.userlist = res.data
+    resetForm() {
+      this.$refs.searchFormRef.resetFields()
+    },
+    search() {
+      this.userlist = []
+      this.getUserList(this.searchForm)
+    },
+    getUserList(params) {
+      this.$http.get('user/list', params).then((res) => {
+        this.userlist = res
       })
     },
     handleEdit(record, action) {
@@ -281,8 +288,8 @@ export default {
         },
       })
     },
-    toDelete(id){      
-       this.$http
+    toDelete(id) {
+      this.$http
         .del('user/destory', {
           ids: [id],
         })
@@ -296,7 +303,6 @@ export default {
             this.getUserList()
           }
         })
-
     },
   },
   watch: {
